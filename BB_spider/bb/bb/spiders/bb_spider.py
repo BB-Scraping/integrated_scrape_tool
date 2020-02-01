@@ -3,7 +3,7 @@ import scrapy
 site_idx = 0
 
 def humanize(data):
-	humanized_data = string[2:-2]
+	humanized_data = data[2:-2]
 	return humanized_data
 
 class bb_spider(scrapy.Spider):
