@@ -1,6 +1,12 @@
 import scrapy
+import xlwt
+from xlwt import Workbook
 
-site_idx = 0
+wb = Workbook()
+
+sheet1 = wb.add_sheet('Sheet 1')
+
+site_idx = -1
 
 def humanize(data):
 	humanized_data = data[2:-2]
@@ -15,8 +21,6 @@ class bb_spider(scrapy.Spider):
 		page = response.url.split('/')[-1]
 		data = str(response.css('#ctl00_MainContentPlaceholder_C006_forumsFrontendPostsList_ctl00_ctl00_list_ctrl0_ContentHtml *::text').getall())
 		data = humanize(data)
-		data = data.encode()
-		filename = '%d.txt' % site_idx
 		site_idx += 1
-		with open(filename, 'wb') as f:
-			f.write(data)
+		sheet1.write(site_idx, 0, data)
+		wb.save('output.xls')
