@@ -1,4 +1,5 @@
 import scrapy
+import re
 import xlwt
 from xlwt import Workbook
 
@@ -6,10 +7,16 @@ wb = Workbook()
 
 sheet1 = wb.add_sheet('Sheet 1')
 
-site_idx = -1
+site_idx = 0
 
 def humanize(data):
 	humanized_data = data[2:-2]
+	humanized_data = humanized_data.replace("\\r", " ")
+	humanized_data = humanized_data.replace("\\n", " ")
+	humanized_data = humanized_data.replace("\', \'", "")
+	humanized_data = humanized_data.replace("\',", "")
+	humanized_data = humanized_data.replace(", \'", "")
+	humanized_data = humanized_data.replace("\\xa0", "")
 	return humanized_data
 
 class bb_spider(scrapy.Spider):
